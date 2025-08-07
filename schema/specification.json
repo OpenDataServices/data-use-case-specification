@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Data Use Case Descriptions",
+  "description": "A collection of use cases with field requirements in a given dataset",
+  "$defs": {
+    "Indicator": {
+      "type": "object",
+      "title": "Use Case Indicator",
+      "description": "A single use-case indicator which can be calculated against a dataset",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "ID",
+          "description": "A short identifier code for this use case indicator"
+        },
+        "title": {
+          "type": "string",
+          "title": "Title",
+          "description": "The human-readable title of the use case indicator"
+        },
+        "category": {
+          "type": "string",
+          "title": "Category",
+          "description": "A string which can be used to group indicators into categories"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description",
+          "description": "A human-friendly description of this indicator. Consider desribing what the indicator shows the data can be used for, as well as why this is a good thing."
+        },
+        "calculationMethod": {
+          "type": "string",
+          "title": "Calculation Method",
+          "description": "A human-friendly description of the calculation method for this indicator. Make sure that it covers all of the relevant Paths required for the indicator as well as how the calculation method is affected if the analyst or software needs to fall back on Alternative Paths."
+        },
+        "paths": {
+          "type": "array",
+          "title": "Paths",
+          "description": "An array of Paths representing the properties a dataset must possess to fulfill the requirements of this indicator",
+          "items": {
+            "$ref": "#/$defs/Path"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "paths"
+      ]
+    },
+    "Path": {
+      "type": "object",
+      "title": "Path",
+      "description": "A Path representing a property in the target dataset",
+      "properties": {
+        "title": {
+          "type": "string",
+          "title": "Title",
+          "description": "A human-readable title for the path"
+        },
+        "pointer": {
+          "type": "string",
+          "format": "json-pointer",
+          "title": "Pointer",
+          "description": "A string describing the path in JSON Pointer Syntax as per RFC 6901"
+        },
+        "alternatives": {
+          "type": "array",
+          "title": "Alternatives",
+          "description": "An array of Paths which can be used as alternatives for this path in the use-case, if this Path is not present.",
+          "items": {
+            "$ref": "#/$defs/Path"
+          }
+        }
+      },
+      "required": [
+        "pointer"
+      ]
+    }
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Title",
+      "description": "The title of this set of use-cases"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "description": "A human-readable overview of this set of use case indicators"
+    },
+    "publisher": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Common name",
+          "description": "A name which commonly refers to the organisation or individual publishing this set of use case indicators. This does not have to be a legal name and could be a username or internet handle."
+        },
+        "identifier": {
+          "type": "object",
+          "title": "Identifier",
+          "description": "An identifier structure usually used to identify organisations by reference to third-party identifier registers",
+          "properties": {
+            "scheme": {
+              "type": "string",
+              "title": "Scheme",
+              "description": "An identification scheme, usually drawn from org-id.guide"
+            },
+            "id": {
+              "type": "string",
+              "title": "ID",
+              "description": "The identifier of the entity drawn from the selected scheme"
+            }
+          },
+          "required": [
+            "scheme",
+            "id"
+          ]
+        },
+        "contactPoint": {
+          "type": "object",
+          "title": "Contact Point",
+          "description": "The contact details for this organisation or individual",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "title": "URL",
+              "description": "A URL used to find out more information about the organisation or individual publishing this set of use case indicators. Must be a valid URI format of any type e.g. https://, gemini://, etc. as per RFC 3986"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "title": "Email Address",
+              "description": "An email address that may be used to contact the organisation or individual publishing this set of use case indicators. Must be a valid email address format as per RFC 5321."
+            }
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "targetSchema": {
+      "type": "string",
+      "format": "uri",
+      "title": "Target Schema",
+      "description": "A URI resolving to a machine-readable specification which the target dataset should conform to e.g. a JSON Schema file"
+    },
+    "indicators": {
+      "type": "array",
+      "title": "Indicators",
+      "description": "An array of indicators which defines this set of use case indicators",
+      "items": {
+        "$ref": "#/$defs/Indicator"
+      }
+    }
+  },
+  "required": [
+    "title",
+    "indicators"
+  ]
+}

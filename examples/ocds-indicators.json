@@ -1,0 +1,66 @@
+{
+  "title": "Example: OCDS Use-case indicators",
+  "description": "A subset of OCDS use-case indicators as defined in https://docs.google.com/spreadsheets/d/1j-Y0ktZiOyhZzi-2GSabBCnzx6fF5lv8h1KYwi_Q9GM/view reimagined in a machine-readable format as proof-of-concept",
+  "publisher": {
+    "name": "mrshll1001",
+    "contactPoint": {
+      "url": "https://gitlab.com/mrshll1001",
+      "email": "communications@mrshll.uk"
+    }
+  },
+  "targetSchema": "https://standard.open-contracting.org/schema/1__1__5/release-schema.json",
+  "indicators": [
+    {
+      "id": "U001",
+      "title": "Total Number of Procedures",
+      "category": "Market Opportunity",
+      "description": "The total number of procedures indicates the size of the procurement market",
+      "calculationMethod": "Count of unique procedures",
+      "paths": [
+        {
+          "pointer": "/ocid"
+        }
+      ]
+    },
+    {
+      "id": "U002",
+      "title": "Total number of procuring entities",
+      "category": "Market Opportunity",
+      "description": "The total number of procuring entities or buyers indicates the size of the procurement market",
+      "calculationMethod": "Count of unique procuring entities (or buyers)",
+      "paths": [
+        {
+          "pointer": "/ocid"
+        },
+        {
+          "pointer": "/tender/procuringEntity/id",
+          "alternativePaths": [
+            {
+              "pointer": "/buyer/id"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "U003",
+      "title": "Total number of unique bidders",
+      "category": "Market Opportunity",
+      "description": "A higher number of unique bidders may indicate greater system openness and potential for competition.",
+      "calculationMethod": "Count of unique bidders",
+      "paths": [
+        {
+          "pointer": "/ocid"
+        },
+        {
+          "pointer": "/tender/tenderers/0/id",
+          "alternativePaths": [
+            {
+              "pointer": "/bids/0/details/tenderers/0/id"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
